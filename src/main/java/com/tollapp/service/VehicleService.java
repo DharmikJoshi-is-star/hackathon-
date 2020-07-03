@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tollapp.entity.TollPlaza;
 import com.tollapp.entity.User;
 import com.tollapp.entity.Vehicle;
 import com.tollapp.repository.VehicleRepository;
@@ -17,6 +18,9 @@ public class VehicleService {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	TollPlazaService tollPlazaService;
 	
 	public Vehicle addVehicle(Long userId, Vehicle vehicle) {
 		
@@ -47,7 +51,9 @@ public class VehicleService {
 		vehicleRepository.save(vehicle);
 	}
 
-	public Vehicle findVehicle(String registrationNo) {
+	public Vehicle findVehicle(String registrationNo, Long tollPlazaId) {
+		
+		TollPlaza tollPlaza = tollPlazaService.getTollPlazaWithId(tollPlazaId);
 		
 		Vehicle vehicle = vehicleRepository.findVehicle(registrationNo);
 		
@@ -58,7 +64,13 @@ public class VehicleService {
 			vehicle.setChasiNo(null);
 			vehicle.setEngineNo(null);
 			vehicle.setRegistrationDate(null);
+			
+			//canProceed
+			if(vehicle.getUser().getBalance()>=tollPlaza.getTollPrice())
+				vehicle.setCanProceed(true);
+			
 			vehicle.setUser(null);
+			
 			//vehicle.getUser().setVehicles(null);
 		}
 		

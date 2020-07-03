@@ -1,6 +1,8 @@
 package com.tollapp.restcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tollapp.entity.Vehicle;
 import com.tollapp.service.VehicleService;
 
+@CrossOrigin(origins = {"*"}, allowedHeaders = {"Accept"})
 @RestController
 public class VehicleRestController {
 
@@ -34,12 +37,14 @@ public class VehicleRestController {
 		
 		return vehicleService.addVehicle(userId, vehicle);
 	}
+	//MH02CL0555
 	
-	@PostMapping("/findVehicle")
-	public Vehicle findVehicle(@RequestBody String registrationNo) {
+	@CrossOrigin(origins = {"*"}, allowedHeaders = {"Accept"})
+	@GetMapping("/findVehicle/{vehicleNo}/{tollPlazaId}")
+	public Vehicle findVehicle(@PathVariable("vehicleNo") String vehicleNo, @PathVariable("tollPlazaId") Long tollPlazaId) {
 		//MH02CL0555
-		System.out.println(registrationNo);
-		return vehicleService.findVehicle(registrationNo);
+		System.out.println("vehicleNo"+vehicleNo);
+		return vehicleService.findVehicle(vehicleNo, tollPlazaId);
 		
 	}
 }

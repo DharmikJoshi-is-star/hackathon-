@@ -23,7 +23,7 @@ public class TollPlazaService {
 	@Autowired
 	TollHistoryService tollHistoryService;
 
-	public void proceedToll(Long vehicleId, Long tollPlazaId) {
+	public boolean proceedToll(Long vehicleId, Long tollPlazaId) {
 		
 		Vehicle vehicle = vehicleService.getVehicleWithId(vehicleId);
 		
@@ -31,24 +31,66 @@ public class TollPlazaService {
 		
 		User user = vehicle.getUser();
 		
-		user.setBalance( user.getBalance() - tollPlaza.getTollPrice() );
+		if(user.getBalance()>=tollPlaza.getTollPrice()) {
+
+			user.setBalance( user.getBalance() - tollPlaza.getTollPrice() );
+			
+			TollHistory tollHistory = tollHistoryService.saveToll(vehicle, tollPlaza, tollPlaza.getTollPrice());
+			
+			if(vehicle.getTollHistories()==null)
+				vehicle.setTollHistories(new ArrayList<TollHistory>());
+			
+			if(tollPlaza.getTollHistories()==null)
+				tollPlaza.setTollHistories(new ArrayList<TollHistory>());
+			
+			vehicle.getTollHistories().add(tollHistory);
+			
+			vehicleService.saveVehicle(vehicle);
+			
+			tollPlaza.getTollHistories().add(tollHistory);
+			
+			tollPlazaRepository.save(tollPlaza);
+			
+			return true;
+		}
+		else 
+			return false;
 		
-		TollHistory tollHistory = tollHistoryService.saveToll(vehicle, tollPlaza, tollPlaza.getTollPrice());
+	}
+
+	public TollPlaza checkCredentials(String username, String password) {
 		
-		if(vehicle.getTollHistories()==null)
-			vehicle.setTollHistories(new ArrayList<TollHistory>());
+		TollPlaza tollPlaza = tollPlazaRepository.checkCredentials(username, password);
 		
-		if(tollPlaza.getTollHistories()==null)
-			tollPlaza.setTollHistories(new ArrayList<TollHistory>());
+		if(tollPlaza!=null) {
+			tollPlaza.setTollHistories(null);
+			
+		}
 		
-		vehicle.getTollHistories().add(tollHistory);
+		return tollPlaza;
+	}
+
+	public Long saveTollPlaza(TollPlaza tollPlaza) {
 		
-		vehicleService.saveVehicle(vehicle);
+		if(tollPlaza!=null) {
+			tollPlaza = tollPlazaRepository.save(tollPlaza);
+			return tollPlaza.getId();
+		}
 		
-		tollPlaza.getTollHistories().add(tollHistory);
+		return new Long("0");
+	}
+
+	public TollPlaza getTollPlazaWithId(Long tollPlazaId) {
 		
-		tollPlazaRepository.save(tollPlaza);
+		if(tollPlazaId!=null) {
+			TollPlaza tollPlaza = tollPlazaRepository.getOne(tollPlazaId);
+			if(tollPlaza!=null) {
+				return tollPlaza;
+			}
+		}
 		
+		
+		return null;
 	}
 	
 	

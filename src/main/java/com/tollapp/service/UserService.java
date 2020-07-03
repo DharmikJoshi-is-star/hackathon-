@@ -30,7 +30,14 @@ public class UserService {
 	}
 
 	public User getUserWithId(Long userId) {
-		return userRepository.getOne(userId);
+		User user =  userRepository.getOne(userId);
+		
+		user.getVehicles().forEach(vehicle->{
+			vehicle.setUser(null);
+			vehicle.setTollHistories(null);
+		});
+		
+		return user;
 	}
 
 	public void saveUser(User user) {
@@ -38,13 +45,15 @@ public class UserService {
 			userRepository.save(user);
 	}
 
-	public void addBalance(Long userId, Double balance) {
+	public Double addBalance(Long userId, Double balance) {
 		User user = userRepository.getOne(userId);
 		if(user!=null) {
 			Double newBal = user.getBalance() + balance;
 			user.setBalance(newBal);
 			userRepository.save(user);
+			return newBal;
 		}
+		return null;
 	}
 
 	public List<Vehicle> getUserVehicles(Long userId) {

@@ -46,9 +46,9 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/addBalance/{userId}")
-	public void addBalance(@RequestBody Double balance, @PathVariable("userId") Long userId) {
+	public Double addBalance(@RequestBody Double balance, @PathVariable("userId") Long userId) {
 		// 20.00
-		userService.addBalance(userId, balance);
+		return userService.addBalance(userId, balance);
 	}
 	
 	@GetMapping("/getUser/{userId}")

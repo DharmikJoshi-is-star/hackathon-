@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class Vehicle {
@@ -43,6 +44,9 @@ public class Vehicle {
 	
 	@Column(name = "Maker_Model")
 	private String makerModel;
+	
+	@Transient
+	private boolean canProceed;
 	
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
@@ -139,6 +143,15 @@ public class Vehicle {
 		this.tollHistories = tollHistories;
 	}
 
+	public boolean isCanProceed() {
+		return canProceed;
+	}
+
+	public void setCanProceed(boolean canProceed) {
+		this.canProceed = canProceed;
+	}
+
+	
 
 	
 	
