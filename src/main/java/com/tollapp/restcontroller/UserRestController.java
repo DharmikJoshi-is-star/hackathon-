@@ -37,10 +37,9 @@ public class UserRestController {
 		/*{
 			"name":"Dharmik Joshi",
 			"email":"dharmikj75@gmail.com",
-			"contact": "9096167416",
+			"contact": "1234567890",
 			"username": "dharmik_joshi",
 			"password": "dharmik@20"
-			
 		}
 		*/	
 		return userService.registerUser(user);
@@ -48,6 +47,7 @@ public class UserRestController {
 	
 	@PostMapping("/addBalance/{userId}")
 	public void addBalance(@RequestBody Double balance, @PathVariable("userId") Long userId) {
+		// 20.00
 		userService.addBalance(userId, balance);
 	}
 	
@@ -61,21 +61,12 @@ public class UserRestController {
 		return userService.getUserVehicles(userId);
 	}
 	
-	
 	@PostMapping("/isEmailRegistered")
 	public boolean isEmailRegistered(@RequestBody String email) {
-		
 		/*
-		 * 
-			{
-				"email":"dharmikj75@gmail.com"
-			}
-		 * 
-		 */
-		
+			"dharmikj75@gmail.com"
+		 */		
 		return userService.isEmailRegistered(email);
-		
-		
 
 	}
 	
@@ -86,17 +77,13 @@ public class UserRestController {
 		
 		OTP otp = otpService.generateOTP(email);
 		
-		otp = otpService.saveOtp(otp);
-		
 		try {
 			emailService.sendmail(email, otp.getOtp());
+			otp = otpService.saveOtp(otp);
 		} catch (MailException | MessagingException e) {
-			
-			e.printStackTrace();
-			
+			e.printStackTrace();	
 			return false;
 		}
-		
 		return true;
 	}
 	

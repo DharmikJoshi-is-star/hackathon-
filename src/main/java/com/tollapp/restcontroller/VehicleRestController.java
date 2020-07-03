@@ -16,13 +16,29 @@ public class VehicleRestController {
 	VehicleService vehicleService;
 	
 	@PostMapping("/addVehicle/{userId}")
-	public void addVehicle(@RequestBody Vehicle vehicle, @PathVariable("userId") Long userId) {
-		vehicleService.addVehicle(userId, vehicle);
+	public Vehicle addVehicle(@RequestBody Vehicle vehicle, @PathVariable("userId") Long userId) {
+
+		/*
+		* 
+		* {
+			"registrationNo": "MH02CL0555",
+			"registrationDate": "20-Jan-2012",
+			"chasiNo": "WBAKB42080CY83879",
+			"engineNo":"16257849",
+			"ownerName": "Dharmik Joshi",
+			"vehicleClass": "LMVIMP",
+			"fuelType":"PETROL",
+			"makerModel":"BMW INDIA PVT. LTD., BMW 740 L I PETROL"
+		 }
+		 */
+		
+		return vehicleService.addVehicle(userId, vehicle);
 	}
 	
 	@PostMapping("/findVehicle")
 	public Vehicle findVehicle(@RequestBody String registrationNo) {
-		
+		//MH02CL0555
+		System.out.println(registrationNo);
 		return vehicleService.findVehicle(registrationNo);
 		
 	}

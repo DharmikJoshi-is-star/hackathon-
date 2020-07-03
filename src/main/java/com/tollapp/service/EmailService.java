@@ -17,7 +17,6 @@ import javax.mail.internet.MimeMultipart;
 
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -40,12 +39,12 @@ public class EmailService {
 		   
 		   Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 		      protected PasswordAuthentication getPasswordAuthentication() {
-		         return new PasswordAuthentication("dharmikj75@gmail.com", "dharmik@18");
+		         return new PasswordAuthentication("dharmikj75@gmail.com", "password");
 		      }
 		   });
 		   
 		   Message msg = new MimeMessage(session);
-		   msg.setFrom(new InternetAddress("resumebuilderdj2020@gmail.com", false));
+		   msg.setFrom(new InternetAddress("dharmikj75@gmail.com", false));
 
 		   String txtMsg = "<h1>Welcome to Resume Builder</h1> "
 		   					+ "<br> "

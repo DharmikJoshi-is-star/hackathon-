@@ -18,7 +18,7 @@ public class VehicleService {
 	@Autowired
 	UserService userService;
 	
-	public void addVehicle(Long userId, Vehicle vehicle) {
+	public Vehicle addVehicle(Long userId, Vehicle vehicle) {
 		
 		User user = userService.getUserWithId(userId);
 		
@@ -33,8 +33,9 @@ public class VehicleService {
 			user.getVehicles().add(vehicle);
 			
 			userService.saveUser(user);
-		}
-		
+		}      
+		vehicle.getUser().setVehicles(null);
+		return vehicle;
 	}
 
 	public Vehicle getVehicleWithId(Long vehicleId) {
@@ -50,11 +51,15 @@ public class VehicleService {
 		
 		Vehicle vehicle = vehicleRepository.findVehicle(registrationNo);
 		
+		System.out.println(vehicle);
+		
 		if(vehicle!=null) {
 			vehicle.setTollHistories(null);
 			vehicle.setChasiNo(null);
 			vehicle.setEngineNo(null);
 			vehicle.setRegistrationDate(null);
+			vehicle.setUser(null);
+			//vehicle.getUser().setVehicles(null);
 		}
 		
 		return vehicle;
