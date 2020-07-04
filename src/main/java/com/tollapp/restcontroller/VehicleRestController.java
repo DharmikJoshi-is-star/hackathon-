@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tollapp.entity.User;
 import com.tollapp.entity.Vehicle;
+import com.tollapp.service.UserService;
 import com.tollapp.service.VehicleService;
 
 @CrossOrigin(origins = {"*"}, allowedHeaders = {"Accept"})
@@ -47,4 +49,12 @@ public class VehicleRestController {
 		return vehicleService.findVehicle(vehicleNo, tollPlazaId);
 		
 	}
+	
+	@GetMapping("/removeVehicle/{userId}/{vehicleId}")
+	public boolean removeVehicle(@PathVariable("userId") Long userId, @PathVariable("vehicleId") Long vehicleId) {
+		
+		return vehicleService.removeVehicle(userId, vehicleId);
+	}
+	
+	
 }

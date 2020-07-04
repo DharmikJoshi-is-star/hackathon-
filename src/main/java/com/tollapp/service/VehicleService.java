@@ -24,7 +24,7 @@ public class VehicleService {
 	
 	public Vehicle addVehicle(Long userId, Vehicle vehicle) {
 		
-		User user = userService.getUserWithId(userId);
+		User user = userService.getUser(userId);
 		
 		if(user!=null) {
 			if(user.getVehicles()==null)
@@ -75,6 +75,38 @@ public class VehicleService {
 		}
 		
 		return vehicle;
+	}
+
+	public boolean removeVehicle(Long userId, Long vehicleId) {
+		
+		
+			User user = userService.getUser(userId);
+			
+			Vehicle vehicle = vehicleRepository.getOne(vehicleId);
+			
+			if(user!=null && vehicle!=null && user.getVehicles().contains(vehicle)) {
+
+				user.getVehicles().remove(vehicle);
+				
+				vehicleRepository.deleteById(vehicleId);
+				
+				userService.saveUser(user);
+				
+				return true;
+			}
+			else
+				return false;
+		
+		
+	}
+
+	public void removeVehicleWithUserId(Long userId) {
+		
+		User user = userService.getUser(userId);
+		user.getVehicles().forEach(vh->{
+			removeVehicle(userId, vh.getId());
+		});
+		
 	}
 	
 }

@@ -31,6 +31,14 @@ public class LoginService {
 		loginRepository.save(login);
 		
 	}
+
+	public void deleteLoginWihtUserId(Long userId) {
+		
+		Login lg = loginRepository.getLoginwithUserId(userId);
+		loginRepository.delete(lg);
+		
+		
+	}
 	
 	
 	

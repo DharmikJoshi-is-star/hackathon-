@@ -12,4 +12,8 @@ public interface LoginRepository extends JpaRepository<Login, Long>{
 	@Query("Select login.userId from Login login where login.username=?1 and login.password=?2")
 	Long checkCredentials(String username, String password);
 
+	@Query("Select login from Login login where login.userId=?1")
+	Login getLoginwithUserId(Long userId);
+
+	
 }

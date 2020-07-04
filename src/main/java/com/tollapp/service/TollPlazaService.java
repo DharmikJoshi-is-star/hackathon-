@@ -1,6 +1,7 @@
 package com.tollapp.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,6 +92,17 @@ public class TollPlazaService {
 		
 		
 		return null;
+	}
+
+	public List<TollPlaza> fetchAllTollPlaza() {
+		
+		List<TollPlaza> tollPlazaList = tollPlazaRepository.findAll();
+		
+		tollPlazaList.forEach(toll->{
+			toll.setTollHistories(null);
+		});
+		
+		return tollPlazaList;
 	}
 	
 	

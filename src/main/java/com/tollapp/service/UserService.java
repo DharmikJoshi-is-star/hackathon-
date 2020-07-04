@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tollapp.entity.TollHistory;
 import com.tollapp.entity.User;
 import com.tollapp.entity.Vehicle;
 import com.tollapp.repository.UserRepository;
@@ -18,13 +19,17 @@ public class UserService {
 	@Autowired
 	LoginService loginService;
 	
+	@Autowired
+	VehicleService vehicleService;
+	
 	public Long registerUser(User user) {
+			
 		User u = userRepository.save(user);
 		if(u!=null) {
 			loginService.saveUser(u);
 			return u.getId();
 		}
-			
+	
 		
 		return new Long("0");
 	}
@@ -39,6 +44,15 @@ public class UserService {
 		
 		return user;
 	}
+	
+	public User getUser(Long userId) {
+		User user =  userRepository.getOne(userId);
+		
+		
+		return user;
+	}
+	
+	
 
 	public void saveUser(User user) {
 		if(user!=null)
@@ -69,4 +83,37 @@ public class UserService {
 		else
 			return true;
 	}
+
+	public boolean isContactExists(String contact) {
+		
+		Long id = userRepository.checkIfContactExist(contact);
+		
+		if(id==null)
+			return false;
+		else 
+			return true;
+		
+	}
+
+	public boolean editContact(Long userId, String contact) {
+		
+		User user = userRepository.getOne(userId);
+		
+		if(user!=null && contact!=null) {
+			user.setContact(contact);
+			return true;
+		}
+		return false;
+		
+	}
+
+	public void deleteUser(Long userId) {
+	
+		loginService.deleteLoginWihtUserId(userId);
+		vehicleService.removeVehicleWithUserId(userId);
+		userRepository.deleteById(userId);
+		
+	}
+	
+	
 }

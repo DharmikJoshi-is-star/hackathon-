@@ -7,9 +7,11 @@ import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,6 +47,14 @@ public class UserRestController {
 		return userService.registerUser(user);
 	}
 	
+	//new API
+	@PostMapping("/verifyContact")
+	public boolean isContactExists(@RequestBody String contact) {
+		
+		return userService.isContactExists(contact);
+		
+	}
+	
 	@PostMapping("/addBalance/{userId}")
 	public Double addBalance(@RequestBody Double balance, @PathVariable("userId") Long userId) {
 		// 20.00
@@ -68,6 +78,11 @@ public class UserRestController {
 		 */		
 		return userService.isEmailRegistered(email);
 
+	}
+	
+	@PutMapping("/editContact/{userId}")
+	public boolean editContact(@RequestBody String contact, @PathVariable("userId") Long userId) {
+		return userService.editContact(userId, contact);
 	}
 	
 	@PostMapping("/sendOTP")
@@ -94,6 +109,14 @@ public class UserRestController {
 			return true;
 		else 
 			return false;
+
+	}
+	
+	@DeleteMapping("/deleteUser/{userId}")
+	public void deleteUser(@PathVariable("userId") Long userId) {
+		
+		userService.deleteUser(userId);
 		
 	}
+	
 }

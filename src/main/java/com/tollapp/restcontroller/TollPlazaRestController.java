@@ -1,5 +1,7 @@
 package com.tollapp.restcontroller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,4 +51,8 @@ public class TollPlazaRestController {
 		return tollPlazaService.saveTollPlaza(tollPlaza);
 	}
 	
+	@GetMapping("/fetchAllTollPlaza")
+	public List<TollPlaza> fetchAllTollPlaza(){
+		return tollPlazaService.fetchAllTollPlaza();
+	}
 }
