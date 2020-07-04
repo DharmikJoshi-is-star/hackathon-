@@ -10,14 +10,5 @@ import com.tollapp.service.LoginService;
 @RestController
 public class LoginRestController {
 
-	@Autowired
-	private LoginService loginService;
-	
-	@PostMapping("/login")
-	public Long checkCredentials(@RequestBody String[] usernamePassword) {
-		Long userId = loginService.checkCredentials(usernamePassword[0], usernamePassword[1]);
-		return userId;
-	}
-	
 	
 }

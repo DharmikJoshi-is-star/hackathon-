@@ -34,6 +34,14 @@ public class UserRestController {
 	@Autowired
 	OTPService otpService;
 	
+	
+	///copy this
+	@PostMapping("/login")
+	public Long checkCredentials(@RequestBody String[] usernamePassword) {
+		Long userId = userService.checkCredentials(usernamePassword[0], usernamePassword[1]);
+		return userId;
+	}
+	
 	@PostMapping("/registerUser")
 	public Long registerUser(@RequestBody User user) {
 		/*{
@@ -46,6 +54,7 @@ public class UserRestController {
 		*/	
 		return userService.registerUser(user);
 	}
+	
 	
 	//new API
 	@PostMapping("/verifyContact")

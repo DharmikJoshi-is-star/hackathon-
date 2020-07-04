@@ -22,16 +22,12 @@ public class UserService {
 	@Autowired
 	VehicleService vehicleService;
 	
+	//copy this
 	public Long registerUser(User user) {
 			
 		User u = userRepository.save(user);
-		if(u!=null) {
-			loginService.saveUser(u);
-			return u.getId();
-		}
-	
+		return u.getId();
 		
-		return new Long("0");
 	}
 
 	public User getUserWithId(Long userId) {
@@ -107,11 +103,22 @@ public class UserService {
 		
 	}
 
+	//copy this
 	public void deleteUser(Long userId) {
 	
-		loginService.deleteLoginWihtUserId(userId);
 		vehicleService.removeVehicleWithUserId(userId);
 		userRepository.deleteById(userId);
+		
+	}
+
+	public Long checkCredentials(String credential, String password) {
+		
+		Long id = userRepository.checkCredentials(credential, password);
+		
+		if(id==null)
+			return new Long("0");
+		
+		return id;
 		
 	}
 	

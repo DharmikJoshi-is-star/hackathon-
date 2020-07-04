@@ -24,4 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("Select user.id from User user where user.email=?1")
 	Long checkIfEmailExist(String contact);
 
+	@Query("Select user.id from User user where (user.email=?1 and user.password=?2) or (user.contact=?1 and user.password=?2)")
+	Long checkCredentials(String credential, String password);
+
 }
