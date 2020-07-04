@@ -34,6 +34,9 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	private List<Vehicle> vehicles;
 	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	private List<Recharge> recharges;
+	
 	
 	public Long getId() {
 		return id;
@@ -98,6 +101,15 @@ public class User {
 	public void setVehicles(List<Vehicle> vehicles) {
 		this.vehicles = vehicles;
 	}
+
+	public List<Recharge> getRecharges() {
+		return recharges;
+	}
+
+	public void setRecharges(List<Recharge> recharges) {
+		this.recharges = recharges;
+	}
+	
 	
 	
 }

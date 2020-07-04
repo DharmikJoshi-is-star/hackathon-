@@ -45,7 +45,7 @@ public class VehicleRestController {
 	@GetMapping("/findVehicle/{vehicleNo}/{tollPlazaId}")
 	public Vehicle findVehicle(@PathVariable("vehicleNo") String vehicleNo, @PathVariable("tollPlazaId") Long tollPlazaId) {
 		//MH02CL0555
-		System.out.println("vehicleNo"+vehicleNo);
+		System.out.println("vehicleNo "+vehicleNo);
 		return vehicleService.findVehicle(vehicleNo, tollPlazaId);
 		
 	}

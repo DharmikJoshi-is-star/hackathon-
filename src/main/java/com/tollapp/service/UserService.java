@@ -1,13 +1,18 @@
 package com.tollapp.service;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tollapp.entity.Recharge;
 import com.tollapp.entity.TollHistory;
 import com.tollapp.entity.User;
 import com.tollapp.entity.Vehicle;
+import com.tollapp.repository.RechargeRepository;
 import com.tollapp.repository.UserRepository;
 
 @Service
@@ -21,6 +26,10 @@ public class UserService {
 	
 	@Autowired
 	VehicleService vehicleService;
+	
+	
+	@Autowired
+	private RechargeRepository rechargeRepository;
 	
 	//copy this
 	public Long registerUser(User user) {
@@ -55,15 +64,30 @@ public class UserService {
 			userRepository.save(user);
 	}
 
-	public Double addBalance(Long userId, Double balance) {
+	public boolean addBalance(Long userId, String tokenId) {
+		
 		User user = userRepository.getOne(userId);
-		if(user!=null) {
-			Double newBal = user.getBalance() + balance;
-			user.setBalance(newBal);
-			userRepository.save(user);
-			return newBal;
-		}
-		return null;
+		Recharge recharge = new Recharge();
+		
+		recharge.setTokenId(tokenId);
+		recharge.setUser(user);
+		recharge.setAmount(150.00);
+		Long dateTime = System.currentTimeMillis();
+		recharge.setDate(new Date(dateTime));
+		recharge.setTime(new Time(dateTime));
+		
+	
+		recharge = rechargeRepository.save(recharge);
+		
+		if(user.getRecharges()==null)
+			user.setRecharges(new ArrayList<Recharge>());
+		
+		user.getRecharges().add(recharge);
+		
+		userRepository.save(user);
+		
+		return true;
+		
 	}
 
 	public List<Vehicle> getUserVehicles(Long userId) {
@@ -121,6 +145,8 @@ public class UserService {
 		return id;
 		
 	}
+
+	
 	
 	
 }

@@ -27,6 +27,8 @@ public class TollPlaza {
 	@Column(name="Toll_Price")
 	private Double tollPrice;
 
+	private Double totalAmount;
+	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tollPlaza")
 	private List<TollHistory> tollHistories;
 	
@@ -77,5 +79,15 @@ public class TollPlaza {
 	public void setTollHistories(List<TollHistory> tollHistories) {
 		this.tollHistories = tollHistories;
 	}
+
+	public Double getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(Double totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+	
+	
 	
 }

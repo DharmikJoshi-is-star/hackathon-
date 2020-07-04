@@ -26,6 +26,9 @@ public class TollPlazaRestController {
 	public boolean proceedToll(@PathVariable("vehicleId") Long vehicleId, 
 								@PathVariable("tollPlazaId") Long tollPlazaId ) {
 		
+		System.out.println("vehicleId "+vehicleId);
+		System.out.println("tollPlazaId "+tollPlazaId);
+		
 		return tollPlazaService.proceedToll(vehicleId,tollPlazaId);
 	}
 	

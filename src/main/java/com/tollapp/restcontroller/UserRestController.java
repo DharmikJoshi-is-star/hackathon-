@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tollapp.entity.OTP;
 import com.tollapp.entity.User;
 import com.tollapp.entity.Vehicle;
+import com.tollapp.repository.RechargeRepository;
 import com.tollapp.service.EmailService;
 import com.tollapp.service.OTPService;
 import com.tollapp.service.UserService;
@@ -33,7 +34,7 @@ public class UserRestController {
 	
 	@Autowired
 	OTPService otpService;
-	
+
 	
 	///copy this
 	@PostMapping("/login")
@@ -64,10 +65,10 @@ public class UserRestController {
 		
 	}
 	
-	@PostMapping("/addBalance/{userId}")
-	public Double addBalance(@RequestBody Double balance, @PathVariable("userId") Long userId) {
+	@PostMapping("/addBalance/{userId}/{tokenId}")
+	public boolean addBalance(@PathVariable("userId") Long userId, @PathVariable("tokenId") String tokenId) {
 		// 20.00
-		return userService.addBalance(userId, balance);
+		return userService.addBalance(userId, tokenId);
 	}
 	
 	@GetMapping("/getUser/{userId}")

@@ -32,9 +32,19 @@ public class TollPlazaService {
 		
 		User user = vehicle.getUser();
 		
+		System.out.println("vehicle: "+vehicle.getId());
+		System.out.println("User: "+user.getId());
+		System.out.println("tollPlaza: "+tollPlaza.getId());
+		
+		
 		if(user.getBalance()>=tollPlaza.getTollPrice()) {
 
 			user.setBalance( user.getBalance() - tollPlaza.getTollPrice() );
+			
+			if(tollPlaza.getTotalAmount()==null)
+				tollPlaza.setTotalAmount(0.0);
+			
+			tollPlaza.setTotalAmount( tollPlaza.getTotalAmount() + tollPlaza.getTollPrice() );
 			
 			TollHistory tollHistory = tollHistoryService.saveToll(vehicle, tollPlaza, tollPlaza.getTollPrice());
 			
